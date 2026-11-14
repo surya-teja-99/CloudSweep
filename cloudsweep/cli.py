@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import sys
 
+from . import __version__
 from .audit import run_audit
 from .reporter import report_json, report_table
 
@@ -17,6 +18,9 @@ def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
         prog="cloudsweep",
         description="Read-only AWS account hygiene auditor: finds waste and misconfigurations.",
+    )
+    p.add_argument(
+        "--version", action="version", version=f"%(prog)s {__version__}"
     )
     sub = p.add_subparsers(dest="command", required=True)
     a = sub.add_parser("audit", help="inventory resources and report findings")
