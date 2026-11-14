@@ -37,6 +37,7 @@ It never deletes, stops, or modifies anything — only `describe` / `list` /
 
 ```bash
 make setup   # install dependencies
+pip install -e .  # editable install, provides the `cloudsweep` command
 make test    # pytest suite (moto-mocked, fully offline)
 make demo    # audit a mocked account with planted waste (offline, ~6s)
 

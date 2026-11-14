@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cloudsweep"
+version = "0.1.0"
+description = "Read-only AWS account hygiene auditor: finds waste and misconfigurations"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "boto3>=1.43",
+    "rich>=15.0",
+]
+
+[project.scripts]
+cloudsweep = "cloudsweep.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["cloudsweep*"]
