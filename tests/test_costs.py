@@ -50,3 +50,20 @@ def test_total_waste_sums_only_costed():
                 mkfinding(None)]
     attach_costs(findings)
     assert total_monthly_waste_usd(findings) == 2.00
+
+
+def test_negative_gb_returns_none():
+    assert estimate_cost_usd({"kind": "ebs", "gb": -5, "volume_type": "gp3"}) is None
+    assert estimate_cost_usd({"kind": "ebs_snapshot", "gb": -1}) is None
+
+
+def test_zero_gb_returns_zero():
+    assert estimate_cost_usd({"kind": "ebs", "gb": 0, "volume_type": "gp3"}) == 0.0
+
+
+def test_non_numeric_gb_returns_none():
+    assert estimate_cost_usd({"kind": "ebs", "gb": "bad", "volume_type": "gp3"}) is None
+
+
+def test_unknown_kind_returns_none():
+    assert estimate_cost_usd({"kind": "other", "gb": 10}) is None
