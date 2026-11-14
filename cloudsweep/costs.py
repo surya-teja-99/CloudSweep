@@ -29,7 +29,14 @@ def estimate_cost_usd(cost_basis: dict | None) -> float | None:
     if not cost_basis:
         return None
     kind = cost_basis.get("kind")
-    gb = float(cost_basis.get("gb", 0))
+    try:
+        gb = float(cost_basis.get("gb", 0))
+    except (TypeError, ValueError):
+        return None
+    # A negative size is invalid inventory data, not a negative cost:
+    # never let it reduce the reported waste.
+    if gb < 0:
+        return None
     if kind == "ebs":
         rate = EBS_GB_MONTH.get(cost_basis.get("volume_type", ""), DEFAULT_EBS_GB_MONTH)
         return round(gb * rate, 2)
