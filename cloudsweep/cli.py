@@ -11,6 +11,7 @@ import sys
 
 from . import __version__
 from .audit import run_audit
+from .costs import total_monthly_waste_usd
 from .reporter import report_json, report_table
 
 
@@ -46,9 +47,7 @@ def main(argv: list[str] | None = None) -> int:
         result = run_audit(args.regions)
         findings = result.filter_severity(args.min_severity)
         result.findings = findings
-        result.total_monthly_waste_usd = round(
-            sum(f.est_monthly_cost_usd or 0.0 for f in findings), 2
-        )
+        result.total_monthly_waste_usd = total_monthly_waste_usd(findings)
         if args.json:
             print(report_json(result))
         else:
