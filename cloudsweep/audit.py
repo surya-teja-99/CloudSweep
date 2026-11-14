@@ -22,6 +22,10 @@ class AuditResult:
     regions: list[str] = field(default_factory=list)
 
     def filter_severity(self, min_severity: str) -> list[Finding]:
+        if min_severity not in SEVERITIES:
+            raise ValueError(
+                f"unknown severity: {min_severity!r}; expected one of {', '.join(SEVERITIES)}"
+            )
         order = {s: i for i, s in enumerate(SEVERITIES)}
         cutoff = order[min_severity]
         return [f for f in self.findings if order[f.severity] <= cutoff]
